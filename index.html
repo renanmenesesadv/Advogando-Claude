@@ -1,203 +1,1316 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Material Exclusivo para Advogados</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advogando com o Claude — Edição 2026</title>
+<style>
+/* ═══════════════════════════════════════════════════════
+   RESET & VARIABLES
+═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      padding: 20px;
-    }
+:root {
+  --gold: #C9A84C;
+  --gold-lt: #E8D5A3;
+  --gold-dk: #8B6914;
+  --ink: #0F0E0C;
+  --ink2: #1E1C18;
+  --cream: #FAF7F2;
+  --cream2: #F0EAE0;
+  --white: #FFFFFF;
+  --muted: #6B6459;
+  --blue: #1B3A5C;
+  --blue-lt: #E8EFF7;
+  --sidebar-w: 280px;
+  --serif: 'Georgia', 'Times New Roman', serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
 
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-      max-width: 480px;
-      width: 100%;
-      overflow: hidden;
-    }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.75;
+  display: flex;
+  min-height: 100vh;
+}
 
-    .card-header {
-      background: linear-gradient(135deg, #0f3460, #533483);
-      padding: 32px 32px 28px;
-      text-align: center;
-      color: #fff;
-    }
+/* ═══════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════ */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--ink);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,0.2) transparent;
+  transition: transform 0.3s ease;
+}
 
-    .card-header .icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
+.sb-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+.sb-logo-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--gold);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.sb-logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
 
-    .card-header h1 {
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
+.sb-progress-wrap { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.sb-progress-label { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.sb-progress-bar { height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.sb-progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+.sb-progress-pct { font-size: 11px; color: var(--gold); margin-top: 4px; }
 
-    .card-header p {
-      font-size: 14px;
-      opacity: 0.85;
-      line-height: 1.5;
-    }
+.sb-nav { padding: 12px 0; flex: 1; }
+.sb-section-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  padding: 12px 24px 4px;
+}
+.sb-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 24px;
+  text-decoration: none;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.45);
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+}
+.sb-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.03); }
+.sb-link.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.05); }
+.sb-link-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  color: rgba(201,168,76,0.3);
+  min-width: 18px;
+}
+.sb-link.active .sb-link-num { color: var(--gold); }
 
-    .card-body {
-      padding: 32px;
-    }
+.sb-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 10px;
+  color: rgba(255,255,255,0.15);
+  line-height: 1.6;
+}
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+/* ═══════════════════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════════════════ */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+}
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+/* Top bar mobile */
+#topbar {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(15,14,12,0.96);
+  backdrop-filter: blur(12px);
+  height: 52px;
+  align-items: center;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  gap: 12px;
+}
+#menu-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--gold); font-size: 18px; padding: 4px;
+}
+#topbar-title { font-family: var(--serif); font-size: 14px; color: var(--gold); }
 
-    input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 15px;
-      color: #333;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-    }
+/* ═══════════════════════════════════════════════════════
+   COVER PAGE
+═══════════════════════════════════════════════════════ */
+#cover {
+  min-height: 100vh;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.cover-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.cover-radial {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 68%);
+  pointer-events: none;
+}
+.cover-content {
+  position: relative; z-index: 1;
+  max-width: 640px;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+.cover-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 5px 16px; border-radius: 100px;
+  font-size: 10px; color: var(--gold);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.bdot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
 
-    input:focus {
-      border-color: #533483;
-      box-shadow: 0 0 0 3px rgba(83, 52, 131, 0.15);
-    }
+.cover-pretitle { font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.3); font-style: italic; margin-bottom: 0.5rem; }
+.cover-title { font-family: var(--serif); font-size: clamp(48px,7vw,80px); font-weight: normal; color: var(--white); line-height: 1.0; }
+.cover-title em { font-style: italic; color: var(--gold); display: block; }
+.cover-rule { width: 48px; height: 1px; background: var(--gold); opacity: 0.4; margin: 1.75rem auto; }
+.cover-desc { font-size: 15px; color: rgba(255,255,255,0.42); line-height: 1.85; max-width: 480px; margin: 0 auto 2.5rem; }
+.cover-start-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--ink);
+  padding: 14px 32px; border-radius: 4px;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.cover-start-btn:hover { background: var(--gold-lt); transform: translateY(-1px); }
+.cover-stats {
+  display: flex; gap: 3rem; justify-content: center;
+  margin-top: 3rem; padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.cstat-num { font-family: var(--serif); font-size: 32px; color: var(--gold); font-weight: normal; display: block; line-height: 1; }
+.cstat-label { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; }
 
-    input::placeholder {
-      color: #aaa;
-    }
+/* ═══════════════════════════════════════════════════════
+   CHAPTER PAGES
+═══════════════════════════════════════════════════════ */
+.chapter-page { min-height: 100vh; }
 
-    .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #0f3460, #533483);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 8px;
-    }
+.ch-hero {
+  background: var(--ink2);
+  padding: 72px 56px 52px;
+  border-bottom: 3px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
+.ch-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.ch-hero-inner { position: relative; z-index: 1; max-width: 680px; }
+.ch-num-bg {
+  font-family: var(--serif);
+  font-size: 120px;
+  color: rgba(201,168,76,0.07);
+  font-weight: normal;
+  line-height: 1;
+  margin-bottom: -20px;
+  display: block;
+}
+.ch-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; display: block; }
+.ch-title { font-family: var(--serif); font-size: clamp(26px,3.5vw,44px); font-weight: normal; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
+.ch-title em { font-style: italic; color: var(--gold); }
+.ch-lead { font-size: 15px; color: rgba(255,255,255,0.42); max-width: 580px; line-height: 1.85; }
 
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(83, 52, 131, 0.4);
-    }
+.ch-body { padding: 52px 56px 72px; max-width: 780px; }
 
-    .btn-submit:active {
-      transform: translateY(0);
-    }
+/* Typography */
+.ch-body h3 {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: normal;
+  color: var(--ink); margin: 2.75rem 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.ch-body h3:first-child { margin-top: 0; }
+.ch-body h4 { font-family: var(--serif); font-size: 17px; font-weight: normal; color: var(--blue); margin: 2rem 0 0.6rem; font-style: italic; }
+.ch-body p { font-size: 15px; color: #3A3730; line-height: 1.9; margin-bottom: 1.25rem; text-align: justify; }
+.ch-body p:last-child { margin-bottom: 0; }
+.ch-body strong { font-weight: 600; color: var(--ink); }
 
-    .privacy {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 12px;
-      color: #999;
-    }
+/* Callout */
+.callout {
+  background: rgba(201,168,76,0.07);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.25rem 1.5rem; margin: 2rem 0;
+}
+.callout-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dk); margin-bottom: 6px; display: block; font-weight: 600; }
+.callout p { font-size: 14px; color: var(--ink2); margin: 0; line-height: 1.75; }
 
-    .footer {
-      text-align: center;
-      padding: 0 32px 24px;
-      font-size: 12px;
-      color: #bbb;
-    }
-  </style>
+/* Gain box */
+.gain-box { background: var(--blue); border-radius: 12px; padding: 1.75rem 2rem; margin: 2.5rem 0; }
+.gain-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.6rem; display: block; }
+.gain-title { font-family: var(--serif); font-size: 20px; color: var(--gold-lt); font-weight: normal; margin-bottom: 0.6rem; }
+.gain-box p { font-size: 14px; color: rgba(255,255,255,0.62); line-height: 1.8; margin-bottom: 0.5rem; }
+.gain-box p:last-child { margin-bottom: 0; }
+
+/* Example block */
+.example { background: var(--cream2); border-radius: 10px; padding: 1.5rem 1.75rem; margin: 2rem 0; border: 1px solid rgba(0,0,0,0.06); }
+.example-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; display: block; font-weight: 600; }
+.example-code {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 13px; color: var(--blue); line-height: 1.8;
+  background: var(--white); border-radius: 6px;
+  padding: 1rem 1.25rem; border: 1px solid rgba(0,0,0,0.07);
+  white-space: pre-wrap; word-break: break-word;
+}
+
+/* Steps */
+.steps { list-style: none; margin: 1.5rem 0; }
+.steps li { display: flex; gap: 1rem; margin-bottom: 1.1rem; align-items: flex-start; }
+.step-n {
+  min-width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--gold-dk);
+  flex-shrink: 0; margin-top: 2px;
+}
+.steps li p { margin: 0; font-size: 15px; }
+
+/* Checklist */
+.checklist { list-style: none; margin: 1.5rem 0; }
+.checklist li { display: flex; gap: 10px; margin-bottom: 0.75rem; font-size: 15px; color: #3A3730; line-height: 1.65; align-items: flex-start; }
+.chk { color: var(--gold); flex-shrink: 0; margin-top: 2px; font-size: 13px; }
+
+/* Pills */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 1.25rem 0; }
+.pill { font-size: 11px; color: var(--blue); background: var(--blue-lt); padding: 4px 12px; border-radius: 100px; }
+
+/* Chapter nav */
+.ch-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 56px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  background: var(--white);
+  gap: 1rem;
+}
+.ch-nav-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 6px;
+  font-size: 13px; color: var(--muted);
+  background: none; border: 1px solid rgba(0,0,0,0.1);
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.ch-nav-btn:hover { border-color: var(--gold); color: var(--gold-dk); }
+.ch-nav-btn.primary { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 500; }
+.ch-nav-btn.primary:hover { background: var(--gold-lt); }
+.ch-nav-info { font-size: 12px; color: var(--muted); text-align: center; }
+
+/* ═══════════════════════════════════════════════════════
+   SUMÁRIO
+═══════════════════════════════════════════════════════ */
+#toc-page { background: var(--white); padding: 72px 56px; }
+.toc-title { font-family: var(--serif); font-size: clamp(28px,4vw,44px); font-weight: normal; color: var(--ink); margin-bottom: 0.5rem; }
+.toc-sub { font-size: 14px; color: var(--muted); margin-bottom: 2.5rem; }
+.toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.toc-card {
+  border: 1px solid rgba(0,0,0,0.07); border-radius: 10px;
+  padding: 1.25rem 1.5rem; cursor: pointer;
+  transition: all 0.25s; background: var(--cream);
+  text-decoration: none; color: inherit;
+  display: block;
+}
+.toc-card:hover { border-color: rgba(201,168,76,0.4); box-shadow: 0 4px 20px rgba(201,168,76,0.1); transform: translateY(-2px); }
+.toc-card-num { font-family: var(--serif); font-size: 32px; color: rgba(201,168,76,0.2); font-weight: normal; line-height: 1; margin-bottom: 4px; }
+.toc-card-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dk); margin-bottom: 4px; display: block; }
+.toc-card-name { font-family: var(--serif); font-size: 17px; color: var(--ink); margin-bottom: 6px; }
+.toc-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════
+   CONCLUSION
+═══════════════════════════════════════════════════════ */
+#conclusao-page { background: var(--ink); min-height: 100vh; }
+.concl-hero { padding: 80px 56px 60px; position: relative; overflow: hidden; }
+.concl-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.concl-inner { position: relative; z-index: 1; max-width: 680px; }
+.concl-title { font-family: var(--serif); font-size: clamp(36px,5vw,60px); font-weight: normal; color: var(--white); line-height: 1.08; margin-bottom: 1.5rem; }
+.concl-title em { font-style: italic; color: var(--gold); }
+.concl-rule { width: 48px; height: 1px; background: var(--gold); opacity: 0.35; margin: 2rem 0; }
+.concl-body { padding: 0 56px 80px; max-width: 780px; }
+.concl-body p { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 1.5rem; }
+
+/* Referencias */
+#refs-page { background: var(--cream2); padding: 60px 56px; }
+.refs-title { font-family: var(--serif); font-size: 28px; font-weight: normal; color: var(--ink); margin-bottom: 2rem; }
+.refs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+.refs-card { background: var(--white); border-radius: 10px; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.06); }
+.refs-card-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 0.75rem; letter-spacing: 0.02em; }
+.refs-item { display: flex; flex-direction: column; margin-bottom: 0.6rem; }
+.refs-item-label { font-size: 11px; color: var(--muted); }
+.refs-item-link { font-size: 12px; color: var(--blue); word-break: break-all; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media(max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  #sidebar { transform: translateX(-280px); width: 280px; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; padding-top: 52px; }
+  #topbar { display: flex; }
+  .ch-hero, .ch-body, .ch-nav, #toc-page, .concl-hero, .concl-body, #refs-page { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .cover-stats { gap: 1.5rem; flex-wrap: wrap; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .refs-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRINT
+═══════════════════════════════════════════════════════ */
+@media print {
+  #sidebar, #topbar { display: none !important; }
+  #main { margin-left: 0 !important; }
+  .chapter-page { page-break-before: always; }
+  .ch-nav { display: none; }
+}
+
+/* Utility */
+.hidden { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+</style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="icon">&#9878;</div>
-      <h1>Material Exclusivo para Advogados</h1>
-      <p>Preencha seus dados abaixo para receber acesso imediato ao material gratuito.</p>
-    </div>
+<!-- SIDEBAR -->
+<nav id="sidebar" aria-label="Navegação do ebook">
+  <div class="sb-logo">
+    <div class="sb-logo-title">Advogando com<br>o Claude</div>
+    <div class="sb-logo-sub">Edição 2026</div>
+  </div>
+  <div class="sb-progress-wrap">
+    <div class="sb-progress-label">Progresso de leitura</div>
+    <div class="sb-progress-bar"><div class="sb-progress-fill" id="progBar"></div></div>
+    <div class="sb-progress-pct" id="progPct">0%</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section-label">Início</div>
+    <a class="sb-link active" data-target="cover" onclick="goTo('cover')"><span class="sb-link-num">—</span>Capa</a>
+    <a class="sb-link" data-target="toc" onclick="goTo('toc')"><span class="sb-link-num">—</span>Sumário</a>
+    <div class="sb-section-label">Capítulos</div>
+    <a class="sb-link" data-target="cap1" onclick="goTo('cap1')"><span class="sb-link-num">01</span>Abrindo sua conta</a>
+    <a class="sb-link" data-target="cap2" onclick="goTo('cap2')"><span class="sb-link-num">02</span>Petições e documentos</a>
+    <a class="sb-link" data-target="cap3" onclick="goTo('cap3')"><span class="sb-link-num">03</span>Prompts de precisão</a>
+    <a class="sb-link" data-target="cap4" onclick="goTo('cap4')"><span class="sb-link-num">04</span>Pesquisa jurídica</a>
+    <a class="sb-link" data-target="cap5" onclick="goTo('cap5')"><span class="sb-link-num">05</span>Análise de documentos</a>
+    <a class="sb-link" data-target="cap6" onclick="goTo('cap6')"><span class="sb-link-num">06</span>Projects</a>
+    <a class="sb-link" data-target="cap7" onclick="goTo('cap7')"><span class="sb-link-num">07</span>Marketing e captação</a>
+    <a class="sb-link" data-target="cap8" onclick="goTo('cap8')"><span class="sb-link-num">08</span>Automação com n8n</a>
+    <a class="sb-link" data-target="cap9" onclick="goTo('cap9')"><span class="sb-link-num">09</span>Ética e sigilo</a>
+    <a class="sb-link" data-target="cap10" onclick="goTo('cap10')"><span class="sb-link-num">10</span>Skills jurídicas</a>
+    <div class="sb-section-label">Final</div>
+    <a class="sb-link" data-target="conclusao" onclick="goTo('conclusao')"><span class="sb-link-num">—</span>Conclusão</a>
+    <a class="sb-link" data-target="refs" onclick="goTo('refs')"><span class="sb-link-num">—</span>Referências</a>
+  </div>
+  <div class="sb-footer">
+    Advogando com o Claude<br>
+    <strong style="color:rgba(255,255,255,0.3);">Renan Meneses da Silva</strong><br>
+    © 2026 · Todos os direitos reservados<br>
+    Uso pessoal e profissional autorizado.
+  </div>
+</nav>
 
-    <div class="card-body">
-      <form
-        action="https://formsubmit.co/renanmenesesfb@gmail.com"
-        method="POST"
-      >
-        <!-- FormSubmit config -->
-        <input type="hidden" name="_next" value="COLE_AQUI_A_URL_DA_PAGINA_DE_OBRIGADO">
-        <input type="hidden" name="_subject" value="Novo Lead - Captura Advogando">
-        <input type="hidden" name="_captcha" value="true">
-        <input type="hidden" name="_template" value="table">
-        <input type="text" name="_honey" style="display:none">
+<!-- TOP BAR MOBILE -->
+<div id="topbar">
+  <button id="menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  <span id="topbar-title">Advogando com o Claude</span>
+</div>
 
-        <div class="form-group">
-          <label for="nome">Nome Completo</label>
-          <input type="text" id="nome" name="Nome" placeholder="Seu nome completo" required>
-        </div>
+<!-- MAIN -->
+<main id="main">
 
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="Email" placeholder="seu@email.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="whatsapp">WhatsApp</label>
-          <input type="tel" id="whatsapp" name="WhatsApp" placeholder="(00) 00000-0000" required
-            pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}"
-            title="Formato: (00) 00000-0000">
-        </div>
-
-        <div class="form-group">
-          <label for="oab">N&uacute;mero da OAB</label>
-          <input type="text" id="oab" name="OAB" placeholder="Ex: 123456/SP" required>
-        </div>
-
-        <button type="submit" class="btn-submit">Quero Receber o Material</button>
-
-        <p class="privacy">&#128274; Seus dados est&atilde;o seguros e n&atilde;o ser&atilde;o compartilhados.</p>
-      </form>
-    </div>
-
-    <div class="footer">
-      Advogando &copy; 2026
+<!-- ═══════════════ CAPA ═══════════════ -->
+<section id="cover" class="page-section">
+  <div id="cover-content">
+    <div class="cover-grid"></div>
+    <div class="cover-radial"></div>
+    <div class="cover-content">
+      <div class="cover-badge"><span class="bdot"></span>Edição 2026 · Direito &amp; Inteligência Artificial</div>
+      <p class="cover-pretitle">O guia prático para advogados</p>
+      <h1 class="cover-title">Advogando<em>com o Claude</em></h1>
+      <div class="cover-rule"></div>
+      <p style="font-family:var(--serif);font-size:18px;color:rgba(255,255,255,0.55);margin-bottom:0.3rem;font-style:italic;">Renan Meneses da Silva</p>
+      <p style="font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.75rem;">Advogado · OAB/RN 13.754</p>
+      <p class="cover-desc">Da abertura de conta ao domínio completo da ferramenta mais poderosa que um advogado pode usar em 2026 — sem precisar saber programar.</p>
+      <button class="cover-start-btn" onclick="goTo('toc')">Começar a leitura →</button>
+      <div class="cover-stats">
+        <div><span class="cstat-num">10</span><span class="cstat-label">Capítulos</span></div>
+        <div><span class="cstat-num">40+</span><span class="cstat-label">Aplicações práticas</span></div>
+        <div><span class="cstat-num">100%</span><span class="cstat-label">Offline</span></div>
+      </div>
     </div>
   </div>
+</section>
 
-  <script>
-    // Máscara simples para WhatsApp
-    document.getElementById('whatsapp').addEventListener('input', function (e) {
-      let v = e.target.value.replace(/\D/g, '');
-      if (v.length > 11) v = v.slice(0, 11);
-      if (v.length > 6) {
-        v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
-      } else if (v.length > 2) {
-        v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
-      } else if (v.length > 0) {
-        v = '(' + v;
-      }
-      e.target.value = v;
-    });
-  </script>
+<!-- ═══════════════ SUMÁRIO ═══════════════ -->
+<section id="toc" class="page-section hidden">
+  <div id="toc-page">
+    <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;">Conteúdo</p>
+    <h2 class="toc-title">Sumário</h2>
+    <p class="toc-sub">Clique em qualquer capítulo para ir direto ao conteúdo.</p>
+    <div class="toc-grid">
+      <a class="toc-card" onclick="goTo('cap1')">
+        <div class="toc-card-num">01</div>
+        <span class="toc-card-tag">Fundamentos</span>
+        <div class="toc-card-name">Abrindo sua conta no Claude</div>
+        <div class="toc-card-desc">O que é o Claude, planos disponíveis, criação de conta e contexto de memória.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap2')">
+        <div class="toc-card-num">02</div>
+        <span class="toc-card-tag">Produção Documental</span>
+        <div class="toc-card-name">Petições, pareceres e contratos</div>
+        <div class="toc-card-desc">Como produzir peças jurídicas completas em fração do tempo habitual.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap3')">
+        <div class="toc-card-num">03</div>
+        <span class="toc-card-tag">Técnica Essencial</span>
+        <div class="toc-card-name">Prompts jurídicos de precisão</div>
+        <div class="toc-card-desc">Os quatro elementos do bom prompt e técnicas avançadas de comunicação com a IA.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap4')">
+        <div class="toc-card-num">04</div>
+        <span class="toc-card-tag">Pesquisa Jurídica</span>
+        <div class="toc-card-name">Pesquisa jurídica acelerada</div>
+        <div class="toc-card-desc">Deep Research, jurisprudência em tempo real e síntese de acórdãos.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap5')">
+        <div class="toc-card-num">05</div>
+        <span class="toc-card-tag">Análise Documental</span>
+        <div class="toc-card-name">Leitura e análise de documentos</div>
+        <div class="toc-card-desc">Contratos, laudos, prontuários, rescisões e conformidade regulatória.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap6')">
+        <div class="toc-card-num">06</div>
+        <span class="toc-card-tag">Organização</span>
+        <div class="toc-card-name">Projects: seu escritório no Claude</div>
+        <div class="toc-card-desc">Contexto persistente, instruções de sistema e organização por área e equipe.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap7')">
+        <div class="toc-card-num">07</div>
+        <span class="toc-card-tag">Marketing Jurídico</span>
+        <div class="toc-card-name">Comunicação, marketing e captação</div>
+        <div class="toc-card-desc">E-mails, redes sociais, artigos, ferramentas de captação e limites éticos.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap8')">
+        <div class="toc-card-num">08</div>
+        <span class="toc-card-tag">Automação</span>
+        <div class="toc-card-name">Automação com n8n e API</div>
+        <div class="toc-card-desc">Workflows de prazos, briefing no WhatsApp e integração com Google Workspace.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap9')">
+        <div class="toc-card-num">09</div>
+        <span class="toc-card-tag">Ética Profissional</span>
+        <div class="toc-card-name">Confidencialidade e ética no uso da IA</div>
+        <div class="toc-card-desc">O que nunca compartilhar, sigilo profissional e IA no Código de Ética da OAB.</div>
+      </a>
+      <a class="toc-card" onclick="goTo('cap10')">
+        <div class="toc-card-num">10</div>
+        <span class="toc-card-tag">Nível Avançado</span>
+        <div class="toc-card-name">Skills: seu assistente jurídico personalizado</div>
+        <div class="toc-card-desc">Construa, teste e implante um assistente treinado para o seu escritório.</div>
+      </a>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <button class="ch-nav-btn primary" onclick="goTo('cap1')">Começar pelo Capítulo 1 →</button>
+      <button class="ch-nav-btn" onclick="goTo('conclusao')">Ir para a Conclusão</button>
+    </div>
+  </div>
+</section>
 
+<!-- ═══════════════ CAP 1 ═══════════════ -->
+<section id="cap1" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">01</span>
+      <span class="ch-tag">Fundamentos</span>
+      <h2 class="ch-title">Abrindo sua conta<br><em>no Claude</em></h2>
+      <p class="ch-lead">Antes de qualquer ferramenta, é preciso entender o terreno. O Claude não é um buscador nem um chatbot de atendimento. É um assistente de linguagem avançada que raciocina, escreve, analisa e executa tarefas complexas — e que pode ser orientado para o seu contexto jurídico específico.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que é o Claude, afinal?</h3>
+    <p>O Claude é desenvolvido pela Anthropic, empresa norte-americana fundada em 2021 por ex-pesquisadores da OpenAI, com foco prioritário em segurança e confiabilidade dos sistemas de Inteligência Artificial. Diferentemente de ferramentas genéricas, o Claude é treinado para raciocinar de forma estruturada, ser honesto sobre suas limitações e manter coerência em conversas longas e complexas.</p>
+    <p>Para o advogado, isso significa um assistente que compreende a diferença entre tutela cautelar e tutela antecipada, que conhece a estrutura de uma petição inicial, que sabe o que é uma exceção de pré-executividade — e que, com as instruções certas, produz peças dentro do padrão forense. Não substitui a formação jurídica; amplifica quem já a tem.</p>
+    <p>Uma característica que distingue o Claude de concorrentes é sua disposição em reconhecer limitações. Quando não tem certeza, diz. Quando a informação pode estar desatualizada, alerta. Essa honestidade é especialmente relevante no uso jurídico, onde precisão tem consequências reais.</p>
+
+    <h3>Planos disponíveis: qual escolher?</h3>
+    <p>O Claude é acessado pelo endereço <strong>claude.ai</strong> e está disponível em três níveis principais:</p>
+    <ul class="checklist">
+      <li><span class="chk">◆</span><div><strong>Plano gratuito:</strong> uso diário com limitações de volume. Suficiente para experimentação inicial durante os primeiros dias.</div></li>
+      <li><span class="chk">◆</span><div><strong>Plano Pro (≈ US$ 20/mês):</strong> limites ampliados, acesso aos modelos mais avançados, Projects e Deep Research. Recomendado para uso profissional regular.</div></li>
+      <li><span class="chk">◆</span><div><strong>Plano Team:</strong> múltiplos usuários, workspace compartilhado, administração centralizada. Indicado para escritórios com dois ou mais advogados.</div></li>
+    </ul>
+    <div class="callout">
+      <span class="callout-label">Dica prática</span>
+      <p>Comece pelo plano gratuito durante 7 dias usando o Claude em tarefas reais do escritório — uma petição, uma pesquisa, um resumo de acórdão. O custo do plano Pro equivale a menos de uma hora de honorários na maioria dos escritórios, e o ganho de produtividade é imediato.</p>
+    </div>
+
+    <h3>Criando sua conta</h3>
+    <p>Acesse <strong>claude.ai</strong> pelo navegador. Não é necessário instalar nada. O cadastro é feito com e-mail e senha — ou via conta Google — em menos de dois minutos. A interface é limpa: caixa de texto no centro, histórico de conversas na barra lateral e acesso aos Projects no menu superior.</p>
+
+    <h3>O contexto: quanto o Claude "lembra"</h3>
+    <p>Cada conversa tem um limite de contexto — a quantidade de texto processável de uma vez. No plano Pro, esse limite é de aproximadamente 200 mil tokens (equivalente a 150 mil palavras ou centenas de páginas de processo). Na prática, você pode inserir um contrato completo, um acórdão extenso ou um conjunto de laudos e solicitar análise integrada dentro da mesma sessão.</p>
+    <p>O que o Claude não faz é lembrar de conversas anteriores automaticamente. Cada nova sessão começa do zero — a menos que você use Projects, recurso coberto no Capítulo 6.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Acesso a um assistente jurídico disponível 24 horas</div>
+      <p>Sem custo inicial, sem instalação, sem necessidade de saber programar. Na primeira semana de uso regular, a maioria dos advogados já percebe redução significativa no tempo gasto em tarefas repetitivas de escrita e pesquisa.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('toc')">← Sumário</button>
+    <div class="ch-nav-info">Capítulo 1 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap2')">Capítulo 2 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 2 ═══════════════ -->
+<section id="cap2" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">02</span>
+      <span class="ch-tag">Produção Documental</span>
+      <h2 class="ch-title">Petições, pareceres<br><em>e contratos</em></h2>
+      <p class="ch-lead">Esta é a aplicação de maior impacto imediato. O Claude não substitui o raciocínio jurídico — ele elimina o tempo de "página em branco" e acelera a estruturação de documentos que, sem IA, consumiriam horas de trabalho repetitivo.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>Como o Claude produz documentos jurídicos</h3>
+    <p>O processo é direto: você descreve o caso com os elementos essenciais — partes, fatos, pedido e fundamento legal — e o Claude estrutura o documento com argumentação jurídica, linguagem forense e organização processual adequada. O resultado é um rascunho qualificado que você revisa, ajusta e assina.</p>
+    <p>A diferença em relação a geradores de texto genéricos está na compreensão estrutural. O Claude sabe que uma petição inicial inclui qualificação das partes, fatos, fundamentos e pedidos; que uma tutela de urgência exige demonstração de probabilidade do direito e perigo de dano; que um recurso deve impugnar especificamente os fundamentos da decisão recorrida.</p>
+
+    <h3>Petições iniciais</h3>
+    <p>Para uma petição inicial, forneça: a área do Direito, a natureza do réu, os fatos em ordem cronológica, os pedidos e, quando disponível, a legislação ou jurisprudência a invocar. Quanto mais contexto, mais aderente o resultado ao caso concreto.</p>
+    <div class="example">
+      <span class="example-label">Exemplo de instrução ao Claude</span>
+      <div class="example-code">Você é advogado especialista em Direito da Saúde.
+Redija uma petição inicial de ação de obrigação de fazer
+contra operadora de plano de saúde privada.
+
+FATOS: Cliente, mulher de 58 anos, diagnosticada com
+câncer de mama estágio II. Médico indicou quimioterapia
+com Pertuzumabe. A operadora negou cobertura alegando
+que o medicamento não consta no rol da ANS.
+
+PEDIDOS: tutela de urgência para fornecimento imediato
+do medicamento.
+
+FUNDAMENTOS: cite a Súmula 102 do STJ e o argumento
+sobre tratamento de câncer e cobertura obrigatória.</div>
+    </div>
+
+    <h3>Tutelas de urgência</h3>
+    <p>Indique ao Claude os elementos de urgência documentados: relatório médico com prazo, risco de dano irreversível, urgência econômica. Ele articula esses elementos diretamente na demonstração dos requisitos do artigo 300 do CPC — probabilidade do direito e perigo de dano.</p>
+
+    <h3>Recursos e contraminutas</h3>
+    <p>A estratégia mais eficaz: cole o inteiro teor da decisão impugnada e peça ao Claude que identifique os fundamentos do julgador e construa a impugnação específica a cada um. Recursos que atacam especificamente os fundamentos são tecnicamente superiores — e o Claude, com a decisão em mãos, produz exatamente isso.</p>
+
+    <div class="callout">
+      <span class="callout-label">Atenção</span>
+      <p>O Claude pode cometer imprecisões em números de artigos, datas de julgamentos ou ementas de acórdãos. A conferência dessas referências antes do protocolo é responsabilidade inegociável do advogado.</p>
+    </div>
+
+    <h3>Contratos, pareceres e notificações</h3>
+    <p>Para contratos, especifique partes, objeto, condições principais e penalidades. Para contratos complexos, trabalhe por seções e consolide ao final. Para pareceres, o Claude organiza no formato clássico: ementa, relatório, fundamentação e conclusão. Para notificações extrajudiciais, redige com formalidade adequada, fundamento legal e prazo razoável.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">60 a 80% de redução no tempo de produção documental</div>
+      <p>Uma petição que levava 3 horas sai em 30 minutos. Um contrato de 2 horas fica pronto em 20. Esse tempo pode ser redirecionado para atender mais clientes, mais consultas — ou simplesmente encerrar o expediente no horário.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap1')">← Cap. 1</button>
+    <div class="ch-nav-info">Capítulo 2 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap3')">Capítulo 3 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 3 ═══════════════ -->
+<section id="cap3" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">03</span>
+      <span class="ch-tag">Técnica Essencial</span>
+      <h2 class="ch-title">Prompts jurídicos<br><em>de precisão</em></h2>
+      <p class="ch-lead">A qualidade do que o Claude entrega é diretamente proporcional à qualidade do que você pede. Dominar prompts é a habilidade que multiplica todas as outras — e o advogado tem vantagem natural nisso.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que é um prompt e por que importa</h3>
+    <p>Um prompt é a instrução fornecida ao Claude. Pode ser uma pergunta, um pedido ou uma combinação de contexto e solicitação. Advogados que obtêm resultados mediocres com a ferramenta, na maioria dos casos, estão formulando instruções insuficientes — sem contexto, sem especificidade, sem definição do formato esperado.</p>
+    <p>A boa notícia: o advogado é treinado para ser preciso, estruturar argumentos e antecipar o que o interlocutor precisa saber. Essas são exatamente as habilidades que produzem bons prompts.</p>
+
+    <h3>Os quatro elementos do bom prompt jurídico</h3>
+    <ul class="steps">
+      <li><span class="step-n">1</span><p><strong>Defina o papel:</strong> "Você é um advogado especialista em Direito do Consumidor com experiência em ações contra instituições financeiras no TJRN." Esse enquadramento calibra o tom, o repertório argumentativo e o nível de tecnicidade da resposta.</p></li>
+      <li><span class="step-n">2</span><p><strong>Forneça contexto completo:</strong> área jurídica, partes, fatos em ordem cronológica, documentos relevantes (que podem ser colados no chat), instância processual e qualquer peculiaridade — como o entendimento local ou existência de liminar anterior.</p></li>
+      <li><span class="step-n">3</span><p><strong>Seja específico no pedido:</strong> em vez de "faça um recurso", escreva "redija um Agravo Regimental no TJRN contra a decisão que indeferiu a tutela de urgência, impugnando especificamente o argumento de ausência de urgência demonstrada. A urgência está no relatório médico em anexo, que fixa prazo de 15 dias."</p></li>
+      <li><span class="step-n">4</span><p><strong>Especifique o formato:</strong> "estruture no formato padrão de petição, com qualificação, fatos numerados, fundamentos e pedidos em tópicos" — ou "entregue um parecer com ementa de 2 linhas, relatório, fundamentação por tópicos e conclusão objetiva".</p></li>
+    </ul>
+
+    <div class="example">
+      <span class="example-label">Comparação: prompt fraco vs. prompt forte</span>
+      <div class="example-code">❌ FRACO:
+"Faça uma petição de alimentos."
+
+✅ FORTE:
+"Você é advogado de família com experiência no TJRN.
+Redija petição inicial de ação de alimentos.
+Cliente: homem de 42 anos, desempregado há 6 meses.
+Filho: 8 anos, mora com a mãe.
+Réu: funcionário público, salário R$ 8.500/mês.
+Alimentos atuais: R$ 800/mês.
+Pedido: majoração para R$ 2.000/mês.
+Fundamente com o art. 1.694 do Código Civil
+e jurisprudência do STJ sobre o binômio
+necessidade-possibilidade."</div>
+    </div>
+
+    <h3>Técnicas avançadas</h3>
+    <h4>Raciocínio explícito (chain of thought)</h4>
+    <p>Para questões complexas: "Antes de redigir, analise os pontos fortes e fracos da tese e indique os riscos processuais. Depois redija a peça." O resultado é mais fundamentado e já antecipa pontos de atenção.</p>
+    <h4>Refinamento iterativo</h4>
+    <p>Quando o resultado não está bom, refine na mesma conversa: "O fundamento do segundo tópico está superficial. Desenvolva com base na Súmula 469 do STJ e no princípio da função social do contrato." O Claude mantém o contexto e ajusta apenas o que foi pedido.</p>
+    <h4>Uso de exemplos e restrições</h4>
+    <p>Cole uma peça anterior que gostou e diga "siga este estilo". Ou adicione restrições: "Não inclua pedido de danos morais — o réu é ente público." "Não use linguagem rebuscada; o documento será lido por um leigo."</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">A habilidade que multiplica todas as outras</div>
+      <p>Dominar prompts separa advogados que acham a IA "meia boca" dos que entregam documentos de qualidade em fração do tempo. É uma habilidade que melhora com a prática e que o seu concorrente — que ainda não usa IA — simplesmente não tem.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap2')">← Cap. 2</button>
+    <div class="ch-nav-info">Capítulo 3 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap4')">Capítulo 4 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 4 ═══════════════ -->
+<section id="cap4" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">04</span>
+      <span class="ch-tag">Pesquisa Jurídica</span>
+      <h2 class="ch-title">Pesquisa jurídica<br><em>acelerada</em></h2>
+      <p class="ch-lead">A pesquisa jurídica consome tempo desproporcional ao valor que agrega quando feita manualmente. Localizar, ler, resumir, selecionar, aplicar — um ciclo que pode levar horas. Com o Claude e o Deep Research, esse ciclo comprime dramaticamente.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O Claude com acesso à web</h3>
+    <p>O Claude dispõe de um modo de pesquisa que o conecta à internet em tempo real. Quando ativado, ele acessa fontes atualizadas — STJ, STF, TJs estaduais, Jusbrasil e bases doutrinárias — e sintetiza as informações em resposta coerente e organizada, com indicação das fontes consultadas.</p>
+
+    <h3>Deep Research: o pesquisador que não dorme</h3>
+    <p>No plano Pro, o Deep Research executa automaticamente uma sequência de buscas sobre o tema indicado e entrega um relatório estruturado com síntese de posicionamentos, correntes em conflito e referências documentadas. Para o advogado, o produto final equivale ao trabalho de um pesquisador experiente que investiu horas na coleta e organização das informações.</p>
+    <div class="example">
+      <span class="example-label">Como usar o Deep Research</span>
+      <div class="example-code">Pesquise a jurisprudência atual do STJ sobre cobertura
+de medicamentos off-label por planos de saúde privados.
+
+Quero saber:
+1) O entendimento majoritário do tribunal
+2) Os fundamentos utilizados nas decisões
+3) Se há súmula ou recurso repetitivo sobre o tema
+4) A posição das turmas de direito privado
+
+Organize em tópicos com referência aos acórdãos
+mais relevantes e indique se houve mudança de
+posicionamento nos últimos 12 meses.</div>
+    </div>
+
+    <h3>Síntese de acórdãos longos</h3>
+    <p>Quando você já tem o acórdão mas precisa extrair o essencial rapidamente, cole o texto completo e peça: "Resuma este acórdão identificando: (1) a questão central julgada, (2) os fundamentos da decisão, (3) o resultado e (4) os votos divergentes." Em segundos você tem o essencial para decidir se precisa ler o inteiro teor ou não.</p>
+
+    <h3>Comparativos entre tribunais</h3>
+    <p>Uma das pesquisas mais trabalhosas quando feita manualmente. Com o Claude: "Compare o entendimento do TJSP, TJRJ e TJRN sobre responsabilidade de operadoras por negativa de cobertura de cirurgia bariátrica. Informe se há divergência com o STJ." O que demandaria horas de pesquisa convencional fica pronto em minutos.</p>
+
+    <div class="callout">
+      <span class="callout-label">Limitação importante</span>
+      <p>Referências específicas — números de processo, datas de julgamento, composição de turmas — devem ser confirmadas diretamente nos portais dos tribunais antes de constarem em peças processuais. Use o Claude para encontrar o caminho; a verificação final é sua.</p>
+    </div>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Pesquisas de horas comprimidas em minutos</div>
+      <p>Teses mais robustas, construídas sobre um panorama jurisprudencial mais amplo. Capacidade de atender casos em novas áreas sem partir do zero. E tempo — muito tempo — de volta para o que importa.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap3')">← Cap. 3</button>
+    <div class="ch-nav-info">Capítulo 4 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap5')">Capítulo 5 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 5 ═══════════════ -->
+<section id="cap5" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">05</span>
+      <span class="ch-tag">Análise Documental</span>
+      <h2 class="ch-title">Leitura e análise<br><em>de documentos</em></h2>
+      <p class="ch-lead">O advogado lida com documentos o tempo todo. Ler tudo com atenção, identificar o que importa e extrair as informações relevantes consome tempo enorme. O Claude faz essa triagem em segundos.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>Como enviar documentos ao Claude</h3>
+    <p>O Claude aceita PDF, Word, texto simples e imagens. Você pode colar o texto diretamente no chat ou fazer upload do arquivo. No plano Pro, o limite suporta centenas de páginas em uma única conversa — cobrindo processos inteiros sem limitação prática.</p>
+
+    <h3>Análise de contratos</h3>
+    <p>Esta é uma das aplicações de maior valor imediato. O Claude identifica cláusulas abusivas, obrigações desproporcionais, ausência de proteções essenciais, inconsistências internas e pontos de risco. O resultado pode ser organizado por grau de criticidade: alto, médio e baixo.</p>
+    <div class="example">
+      <span class="example-label">Instrução para análise de contrato</span>
+      <div class="example-code">Analise o contrato abaixo do ponto de vista do
+contratado (pessoa física, prestador de serviços).
+
+Identifique:
+1) Cláusulas que limitam direitos do contratado
+   de forma abusiva
+2) Ausência de proteções que deveriam estar presentes
+3) Desequilíbrio nas penalidades entre as partes
+4) Riscos específicos para o meu cliente
+
+Organize por grau de criticidade: alto, médio e baixo.
+
+[cole o contrato aqui]</div>
+    </div>
+
+    <h3>Laudos médicos e prontuários</h3>
+    <p>Para advogados de Direito da Saúde, o Claude traduz a linguagem clínica para termos juridicamente relevantes — identificando o diagnóstico, a indicação e urgência do tratamento, e as informações que sustentam os pedidos da petição. Também aponta lacunas documentais que a parte contrária poderá explorar.</p>
+
+    <h3>Conformidade regulatória</h3>
+    <p>O Claude verifica se registros clínicos atendem às exigências de resoluções dos conselhos profissionais — identificando cada campo exigido pela norma e apontando o que está ausente, incompleto ou em desconformidade. Serve de base para pareceres de responsabilidade profissional.</p>
+
+    <h3>Documentação trabalhista</h3>
+    <p>O Claude analisa CTPs, rescisões, folhas de ponto e demonstrativos, identificando: horas extras não computadas, intervalos suprimidos, verbas rescisórias incorretas, adicionais não quitados. O resultado é um mapa de irregularidades que vai direto para a petição inicial da reclamação trabalhista.</p>
+
+    <h3>Triagem de expedientes em volume</h3>
+    <p>Em escritórios com grande volume processual, o Claude resume o que cada decisão determina, identifica as providências necessárias e organiza por urgência. O que antes consumia horas de leitura sistemática passa a ser resolvido em minutos de revisão.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Capacidade de análise muito além do humanamente possível</div>
+      <p>Atenda mais casos. Faça triagens mais rápidas. Entregue pareceres preliminares em tempo recorde. E reduza o risco de perder algo importante — porque o Claude não fica cansado depois da décima página.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap4')">← Cap. 4</button>
+    <div class="ch-nav-info">Capítulo 5 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap6')">Capítulo 6 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 6 ═══════════════ -->
+<section id="cap6" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">06</span>
+      <span class="ch-tag">Organização</span>
+      <h2 class="ch-title">Projects: seu escritório<br><em>dentro do Claude</em></h2>
+      <p class="ch-lead">O maior problema de usar IA no trabalho diário é a falta de memória — ter que explicar o contexto do escritório a cada nova conversa. O recurso Projects resolve isso. É o equivalente a um colaborador que já leu todos os seus arquivos e nunca esquece.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que são Projects</h3>
+    <p>Projects são espaços de trabalho persistentes onde você armazena documentos de referência, define instruções permanentes e mantém contexto entre conversas distintas. Todo arquivo carregado fica disponível em todas as conversas daquele espaço, e as instruções definidas aplicam-se automaticamente a cada interação.</p>
+
+    <h3>Instruções de sistema: o manual do assistente</h3>
+    <p>O elemento central de um Project bem configurado é a instrução de sistema — um texto que o Claude lê antes de iniciar qualquer conversa naquele espaço. É como entregar um manual de procedimentos a um colaborador especializado.</p>
+    <div class="example">
+      <span class="example-label">Exemplo de instrução de sistema — Direito da Saúde</span>
+      <div class="example-code">Você é o assistente jurídico do escritório [Nome].
+Especialidade: Direito da Saúde.
+
+REGRAS CRÍTICAS:
+→ Contra entes públicos (município, estado, União,
+  autarquias): APENAS obrigação de fazer.
+  NUNCA incluir danos morais ou materiais.
+→ Contra operadoras privadas: danos morais cabíveis
+  quando os fatos justificarem.
+
+CITAÇÕES OBRIGATÓRIAS:
+→ Medicamento off-label plano privado: Súmula 102 STJ
+→ Home care: REsp repetitivo 1.378.707
+→ Rol ANS: EREsp 1.886.929
+
+ESTILO: formal, técnico e direto. Sem retórica
+excessiva. Parágrafos curtos. Linguagem forense
+padrão dos Tribunais do Rio Grande do Norte.</div>
+    </div>
+
+    <h3>Como estruturar seus Projects</h3>
+    <p>A forma mais eficaz: um Project por área de atuação. Dentro de cada Project, carregue:</p>
+    <ul class="checklist">
+      <li><span class="chk">◆</span>Seus melhores modelos de petição naquela área</li>
+      <li><span class="chk">◆</span>Lista de jurisprudência essencial que você sempre cita</li>
+      <li><span class="chk">◆</span>Instruções de estilo do escritório (tom, tamanho de parágrafos)</li>
+      <li><span class="chk">◆</span>Regras críticas que o Claude jamais deve violar</li>
+      <li><span class="chk">◆</span>Dados do escritório: razão social, OAB, endereço, sócios</li>
+    </ul>
+
+    <h3>Projects para clientes recorrentes</h3>
+    <p>Para clientes com grande volume processual, crie um Project dedicado. Carregue os documentos do cliente — contratos, histórico, laudos — e o Claude passa a trabalhar com esse contexto completo em todas as conversas, sem necessidade de reapresentação.</p>
+
+    <h3>Projects para a equipe</h3>
+    <p>No plano Team, múltiplos advogados compartilham os mesmos Projects. Isso assegura que todos produzam documentos com o mesmo padrão de qualidade, utilizando os mesmos templates e respeitando as mesmas regras — independentemente da experiência individual.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Um escritório que o Claude já conhece de cor</div>
+      <p>Sem repetir contexto. Sem risco de o Claude ignorar uma regra crítica. Com padronização de qualidade para toda a equipe. Os Projects transformam o Claude de ferramenta genérica em assistente verdadeiramente especializado na sua prática.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap5')">← Cap. 5</button>
+    <div class="ch-nav-info">Capítulo 6 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap7')">Capítulo 7 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 7 ═══════════════ -->
+<section id="cap7" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">07</span>
+      <span class="ch-tag">Marketing Jurídico</span>
+      <h2 class="ch-title">Comunicação, marketing<br><em>e captação</em></h2>
+      <p class="ch-lead">O advogado que se comunica bem atrai mais clientes. O problema é que comunicação exige tempo e constância — os recursos mais escassos na advocacia. O Claude resolve isso sem abrir mão da qualidade ou da identidade do profissional.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>E-mails profissionais</h3>
+    <p>O Claude adapta o registro ao destinatário: formal para tribunais, acessível para clientes, firme para notificações. Para e-mails a clientes, descreva o que precisa comunicar e o Claude estrutura a mensagem de forma clara, sem jargão excessivo e com o tom adequado.</p>
+    <div class="example">
+      <span class="example-label">Instrução para e-mail a cliente</span>
+      <div class="example-code">Escreva um e-mail ao cliente João explicando que
+a tutela de urgência foi indeferida.
+
+O juiz entendeu que a urgência não ficou demonstrada.
+Precisamos pedir um relatório médico atualizado
+para reforçar o pedido.
+
+Tom: profissional mas acessível, sem alarmismo.
+O cliente é leigo em Direito.</div>
+    </div>
+
+    <h3>Conteúdo para redes sociais</h3>
+    <p>O Claude produz posts educativos sobre direitos dos cidadãos, novidades legislativas e situações jurídicas típicas. Você define tema, público-alvo e canal — Instagram, LinkedIn, WhatsApp — e ele entrega o texto formatado. Uma sessão de trabalho de uma hora pode gerar material para o mês inteiro.</p>
+
+    <h3>Carrosséis e artigos</h3>
+    <p>Para carrosséis de Instagram, o Claude roteiriza o conteúdo completo: título do primeiro slide, desenvolvimento em cada slide, CTA final e legenda. Para blogs, produz artigos completos com estrutura adequada, linguagem acessível e chamada para consulta ao final. Um artigo de 1.200 palavras em 10 minutos.</p>
+
+    <h3>Ferramentas de captação</h3>
+    <p>Em um nível mais avançado, o Claude pode ser integrado a sites para criar ferramentas interativas: calculadoras de indenização trabalhista, verificadores de cobranças indevidas de planos de saúde, questionários de triagem de casos. Essas ferramentas qualificam potenciais clientes automaticamente.</p>
+
+    <div class="callout">
+      <span class="callout-label">Limite ético — OAB</span>
+      <p>O Código de Ética da OAB proíbe captação mercantilizada de clientela e publicidade que prometa resultados. O Claude produz conteúdo educativo e informativo — nunca promessas de ganho ou apelos que caracterizem captação vedada. Revise sempre antes de publicar.</p>
+    </div>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Presença digital consistente sem contratar um redator</div>
+      <p>Clientes que chegam à consulta já convencidos da sua autoridade no tema. Comunicação interna e com clientes mais rápida e profissional. E ferramentas de captação que trabalham enquanto você atende outros casos.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap6')">← Cap. 6</button>
+    <div class="ch-nav-info">Capítulo 7 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap8')">Capítulo 8 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 8 ═══════════════ -->
+<section id="cap8" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">08</span>
+      <span class="ch-tag">Automação</span>
+      <h2 class="ch-title">Automação de rotinas<br><em>com n8n e API</em></h2>
+      <p class="ch-lead">Aqui o escritório começa a trabalhar sozinho. A integração do Claude com ferramentas de automação permite executar tarefas de forma autônoma — sem intervenção humana a cada passo — e sem precisar saber programar.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que é possível automatizar</h3>
+    <p>O n8n é uma plataforma de automação de workflows com interface visual — sem código — que pode ser conectada ao Claude via API. Com essa combinação, é possível automatizar:</p>
+    <ul class="checklist">
+      <li><span class="chk">◆</span>Monitoramento diário de prazos processuais com disparo de alertas</li>
+      <li><span class="chk">◆</span>Consolidação da agenda do dia e envio de briefing matinal</li>
+      <li><span class="chk">◆</span>Triagem automática de e-mails e distribuição de tarefas</li>
+      <li><span class="chk">◆</span>Respostas automáticas a perguntas frequentes de clientes via WhatsApp</li>
+      <li><span class="chk">◆</span>Geração de relatórios periódicos de acompanhamento de carteira</li>
+    </ul>
+
+    <h3>Workflow de prazos e briefing diário</h3>
+    <p>Um dos workflows de maior impacto imediato. O fluxo básico funciona assim:</p>
+    <ul class="steps">
+      <li><span class="step-n">1</span><p>O n8n consulta automaticamente o sistema de gestão processual do escritório via API</p></li>
+      <li><span class="step-n">2</span><p>Agrega os prazos do dia com as informações do Google Calendar</p></li>
+      <li><span class="step-n">3</span><p>Envia os dados ao Claude, que produz um briefing estruturado e personalizado</p></li>
+      <li><span class="step-n">4</span><p>O briefing chega no WhatsApp do advogado com botão de aprovação humana</p></li>
+      <li><span class="step-n">5</span><p>Após aprovação, distribui as tarefas para a equipe automaticamente</p></li>
+    </ul>
+    <p>Esse fluxo elimina o risco de perda de prazo por falha humana de verificação e entrega ao advogado, logo pela manhã, uma visão consolidada e priorizada de tudo que precisa ser feito no dia.</p>
+
+    <h3>Integração com WhatsApp</h3>
+    <p>Usando plataformas como Z-API ou Evolution API, é possível construir um assistente no WhatsApp que responde perguntas frequentes dos clientes (status do processo, documentos necessários, prazos estimados), agenda consultas e encaminha situações que exigem análise jurídica para o advogado responsável.</p>
+
+    <h3>Integração com Google Workspace</h3>
+    <p>A integração conecta o Claude ao Gmail, Google Calendar e Google Drive, permitindo automações como: resumo automático de e-mails com identificação de urgência; criação de eventos no calendário a partir de citações e intimações; e organização automática de documentos por área e cliente no Drive.</p>
+
+    <div class="callout">
+      <span class="callout-label">Não precisa saber programar</span>
+      <p>O n8n oferece interface visual de configuração. A maioria dos workflows descritos neste capítulo pode ser configurada por um advogado sem formação técnica em uma tarde de trabalho dedicada. O Claude pode ser consultado em cada etapa para resolver dúvidas de configuração.</p>
+    </div>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Um escritório que funciona mesmo quando você não está lá</div>
+      <p>Menos risco de perder prazo. Mais controle sem mais trabalho manual. Atendimento de clientes 24h via WhatsApp sem custo de equipe adicional. Um escritório que transmite profissionalismo e organização — porque de fato é organizado.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap7')">← Cap. 7</button>
+    <div class="ch-nav-info">Capítulo 8 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap9')">Capítulo 9 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 9 ═══════════════ -->
+<section id="cap9" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">09</span>
+      <span class="ch-tag">Ética Profissional</span>
+      <h2 class="ch-title">Confidencialidade e ética<br><em>no uso da IA</em></h2>
+      <p class="ch-lead">O uso de IA na advocacia levanta questões sérias de confidencialidade que precisam ser endereçadas antes de qualquer aspecto prático. O sigilo profissional é um dos pilares éticos mais fundamentais da advocacia — e seu descumprimento, ainda que não intencional, tem consequências reais.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que nunca compartilhar com a IA</h3>
+    <p>A regra prática é clara: nunca inserir em ferramentas de IA dados que identifiquem diretamente o cliente ou o caso, a menos que você tenha verificado as políticas de privacidade da plataforma e tenha certeza sobre como esses dados são tratados.</p>
+    <p>Na prática, isso significa:</p>
+    <ul class="checklist">
+      <li><span class="chk">◆</span>Nunca inserir CPF, RG, dados bancários ou informações de saúde do cliente de forma explicitamente identificada</li>
+      <li><span class="chk">◆</span>Substituir nomes de clientes por identificadores genéricos: "meu cliente, pessoa física de 45 anos" em vez do nome completo</li>
+      <li><span class="chk">◆</span>Não inserir documentos originais de processos sigilosos sem anonimização prévia dos dados sensíveis</li>
+      <li><span class="chk">◆</span>Verificar, nas configurações da conta, se a opção de não usar conversas para treinamento do modelo está ativa</li>
+    </ul>
+
+    <div class="callout">
+      <span class="callout-label">Configuração recomendada</span>
+      <p>No plano Pro do Claude.ai, acesse Configurações → Privacidade e verifique se a opção de compartilhamento de conversas para melhoria do modelo está desativada. Para uso profissional jurídico, essa configuração é recomendada.</p>
+    </div>
+
+    <h3>IA e o Código de Ética da OAB</h3>
+    <p>A OAB ainda não possui regulamentação específica sobre IA na advocacia, mas as normas existentes são suficientes para balizar a conduta. O Código de Ética estabelece: lealdade ao cliente, responsabilidade pessoal do advogado pelos atos praticados e vedação ao uso de meios que prejudiquem a dignidade da profissão.</p>
+    <p>Nesse contexto, <strong>o uso da IA não transfere responsabilidade.</strong> A petição assinada pelo advogado é de responsabilidade do advogado — independentemente de quem ou o que a redigiu. Eventual erro na argumentação ou na citação de jurisprudência, se não detectado na revisão, é responsabilidade do subscritor.</p>
+
+    <h3>Responsabilidade sobre o conteúdo assinado</h3>
+    <p>O Claude é uma ferramenta de produção documental. O advogado que usa a ferramenta e assina a peça sem revisá-la adequadamente não tem defesa disciplinar baseada na delegação para a IA. A revisão criteriosa de cada documento produzido com auxílio da ferramenta é dever profissional irrenunciável.</p>
+
+    <h3>O advogado que usa IA com responsabilidade</h3>
+    <p>O advogado que utiliza IA com consciência dos limites éticos, supervisão rigorosa do que assina e respeito às normas de confidencialidade está em plena conformidade com as obrigações deontológicas da profissão. A ferramenta, por si, não representa risco ético. O risco está no uso irresponsável.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Clareza para usar a ferramenta com segurança e sem riscos disciplinares</div>
+      <p>Saber o que pode e o que não pode é o que separa o uso profissional responsável do uso arriscado. Com esse conhecimento, você usa o Claude com confiança — e protege seu cliente, seu escritório e sua inscrição na OAB.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap8')">← Cap. 8</button>
+    <div class="ch-nav-info">Capítulo 9 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('cap10')">Capítulo 10 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 10 ═══════════════ -->
+<section id="cap10" class="page-section chapter-page hidden">
+  <div class="ch-hero">
+    <div class="ch-hero-inner">
+      <span class="ch-num-bg">10</span>
+      <span class="ch-tag">Nível Avançado</span>
+      <h2 class="ch-title">Skills: seu assistente<br>jurídico <em>personalizado</em></h2>
+      <p class="ch-lead">Se os capítulos anteriores mostram o Claude como ferramenta poderosa, este mostra como transformá-lo em um ativo proprietário do seu escritório — treinado nos seus padrões, nas suas regras e na sua forma de trabalhar.</p>
+    </div>
+  </div>
+  <div class="ch-body">
+    <h3>O que é uma Skill</h3>
+    <p>Uma Skill é um arquivo de instruções — denominado SKILL.md — que define como o Claude deve se comportar em um contexto específico. Não é código de programação. É linguagem natural estruturada, descrevendo o papel, as regras, os templates e a lógica de decisão que o assistente deve seguir naquele domínio.</p>
+    <p>O Project é a memória do escritório. A Skill é a inteligência especializada. Combinados, criam um assistente que age como um advogado sênior da equipe — sem necessidade de orientação repetida a cada nova conversa.</p>
+
+    <h3>Por que construir uma Skill própria</h3>
+    <p>A Skill captura o conhecimento tácito do escritório — as regras não escritas, as preferências argumentativas, os padrões de qualidade que levaram anos para se construir — e os aplica de forma consistente em cada documento produzido. Além disso, uma Skill pode ser licenciada para outros advogados da mesma área, abrindo uma linha de receita adicional.</p>
+
+    <h3>Como construir sua primeira Skill</h3>
+    <ul class="steps">
+      <li><span class="step-n">1</span><p><strong>Mapeamento:</strong> identifique as tarefas realizadas com frequência que têm padrões claros e regras definidas. Petições de determinado tipo, análises de documentos específicos, respostas a situações recorrentes — esses são candidatos naturais.</p></li>
+      <li><span class="step-n">2</span><p><strong>Documentação das regras:</strong> registre em linguagem clara todas as regras que o assistente deve seguir. Inclua exemplos do que deve e do que não deve ser feito, bem como os casos de borda já observados na sua prática.</p></li>
+      <li><span class="step-n">3</span><p><strong>Estruturação do SKILL.md:</strong> organize em seções — nome, área, classificações necessárias, templates disponíveis, regras críticas e exemplos. O arquivo final assemelha-se a um manual de procedimentos.</p></li>
+      <li><span class="step-n">4</span><p><strong>Teste e refinamento:</strong> use a Skill em casos reais, compare com a produção manual e identifique onde falha. Uma Skill melhora por iteração — não precisa estar perfeita na primeira versão.</p></li>
+    </ul>
+
+    <div class="example">
+      <span class="example-label">Trecho real de um SKILL.md — Direito da Saúde</span>
+      <div class="example-code">---
+name: peticoes-saude
+area: Direito da Saúde
+versao: 2.1
+---
+
+# Classificação prévia obrigatória
+Antes de produzir qualquer peça, classifique o réu:
+
+→ Ente fazendário (município, estado, União, autarquia):
+  NUNCA incluir pedido de danos morais ou materiais.
+  Apenas obrigação de fazer.
+
+→ Operadora privada de plano de saúde:
+  Pode incluir danos morais quando os fatos
+  justificarem.
+
+# Templates disponíveis
+- tutela_urgencia_medicamento
+- acao_home_care_sus
+- cumprimento_sentenca
+- agravo_instrumento_saude
+- reembolso_particular
+
+# Citações obrigatórias por tipo de caso
+- Off-label plano privado: Súmula 102 STJ
+- Home care: REsp repetitivo 1.378.707
+- Rol ANS: EREsp 1.886.929</div>
+    </div>
+
+    <h3>Do assistente ao produto jurídico</h3>
+    <p>O advogado que domina Skills está posicionado para um passo além: transformar inteligência jurídica em produto escalável. Uma Skill excelente para análise de negativas de planos de saúde pode ser licenciada para outros advogados da área. Outros modelos: serviço de análise automatizada de contratos para clientes empresariais; sistema de triagem de casos para captação em massa; ferramenta de verificação de conformidade regulatória.</p>
+    <p>O escritório deixa de ser exclusivamente prestador de serviços por hora e passa a operar ativos de inteligência que geram valor de forma escalável — independentemente da capacidade operacional individual do advogado.</p>
+
+    <div class="gain-box">
+      <span class="gain-label">O que você ganha neste capítulo</span>
+      <div class="gain-title">Um ativo proprietário que cresce com o escritório</div>
+      <p>Padronização de qualidade sem burocratizar. Escalabilidade sem contratar. E a possibilidade concreta de transformar o conhecimento jurídico acumulado em produto — uma fonte de receita que vai além da hora trabalhada.</p>
+    </div>
+  </div>
+  <div class="ch-nav">
+    <button class="ch-nav-btn" onclick="goTo('cap9')">← Cap. 9</button>
+    <div class="ch-nav-info">Capítulo 10 de 10</div>
+    <button class="ch-nav-btn primary" onclick="goTo('conclusao')">Conclusão →</button>
+  </div>
+</section>
+
+<!-- ═══════════════ CONCLUSÃO ═══════════════ -->
+<section id="conclusao" class="page-section hidden">
+  <div id="conclusao-page">
+    <div class="concl-hero">
+      <div class="concl-inner">
+        <span style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(201,168,76,0.5);display:block;margin-bottom:1rem;">Para encerrar</span>
+        <h2 class="concl-title">O advogado<br><em>aumentado</em></h2>
+        <div class="concl-rule"></div>
+        <p style="font-size:16px;color:rgba(255,255,255,0.45);line-height:1.85;max-width:580px;">Em 2026, usar Inteligência Artificial no exercício da advocacia deixou de ser diferencial para se tornar, progressivamente, requisito de competitividade.</p>
+      </div>
+    </div>
+    <div class="concl-body">
+      <p>A palavra central deste guia não é automação, tampouco substituição. É <em style="color:var(--gold-lt);">aumento</em>. O advogado que integra o Claude ao seu trabalho não faz as mesmas coisas mais rápido. Ele passa a fazer coisas que antes eram inviáveis dentro das restrições de tempo, equipe e custo de um escritório real.</p>
+      <p>Pesquisar jurisprudência com profundidade que antes demandaria dias. Analisar volumes de documentação que nenhum profissional processaria individualmente no prazo disponível. Manter presença digital consistente sem contratar uma equipe de comunicação. Criar ferramentas de captação que trabalham enquanto o escritório está fechado.</p>
+      <p>O resultado concreto é um profissional que entrega mais, fatura mais com o mesmo esforço e tem mais espaço para o raciocínio estratégico — porque as tarefas operacionais foram delegadas a uma ferramenta que não se cansa, não distrai e não erra por pressão de tempo.</p>
+      <p>O caminho começa com a abertura de uma conta e a primeira petição produzida com auxílio da ferramenta — que será imperfeita, exigirá revisão e ensinará mais do que qualquer texto teórico. Progride pela organização em Projects, pelo domínio dos prompts e pela integração com automações. E culmina, para quem percorrê-lo integralmente, na criação de ativos de inteligência jurídica que transcendem a prestação de serviços por hora.</p>
+      <p>O momento de começar é o presente. O diferencial competitivo de quem começa agora é real — e é temporário, porque o mercado está em movimento. Quem entrar primeiro constrói vantagem; quem aguardar, apenas reduz a desvantagem.</p>
+      <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.07);">
+        <p style="font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(255,255,255,0.25);text-align:center;">Advogando com o Claude — Edição 2026</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.15);text-align:center;margin-top:0.5rem;">Renan Meneses da Silva · OAB/RN 13.754</p>
+      </div>
+    </div>
+    <div class="ch-nav" style="background:var(--ink2);border-top:1px solid rgba(255,255,255,0.05);">
+      <button class="ch-nav-btn" style="color:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.1);" onclick="goTo('cap10')">← Cap. 10</button>
+      <div class="ch-nav-info" style="color:rgba(255,255,255,0.25);">Fim do conteúdo</div>
+      <button class="ch-nav-btn primary" onclick="goTo('refs')">Referências →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ REFERÊNCIAS ═══════════════ -->
+<section id="refs" class="page-section hidden">
+  <div id="refs-page">
+    <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;">Para continuar aprendendo</p>
+    <h2 class="refs-title">Referências e recursos úteis</h2>
+    <div class="refs-grid">
+      <div class="refs-card">
+        <div class="refs-card-title">Plataforma Claude</div>
+        <div class="refs-item"><span class="refs-item-label">Acesso ao assistente</span><span class="refs-item-link">claude.ai</span></div>
+        <div class="refs-item"><span class="refs-item-label">Documentação oficial</span><span class="refs-item-link">docs.anthropic.com</span></div>
+        <div class="refs-item"><span class="refs-item-label">API (integrações)</span><span class="refs-item-link">console.anthropic.com</span></div>
+        <div class="refs-item"><span class="refs-item-label">Suporte</span><span class="refs-item-link">support.claude.ai</span></div>
+      </div>
+      <div class="refs-card">
+        <div class="refs-card-title">Automação</div>
+        <div class="refs-item"><span class="refs-item-label">n8n (workflows visuais)</span><span class="refs-item-link">n8n.io</span></div>
+        <div class="refs-item"><span class="refs-item-label">Z-API (WhatsApp)</span><span class="refs-item-link">z-api.io</span></div>
+        <div class="refs-item"><span class="refs-item-label">Evolution API (WhatsApp)</span><span class="refs-item-link">evolution-api.com</span></div>
+        <div class="refs-item"><span class="refs-item-label">Google Workspace</span><span class="refs-item-link">workspace.google.com</span></div>
+      </div>
+      <div class="refs-card">
+        <div class="refs-card-title">Pesquisa Jurídica</div>
+        <div class="refs-item"><span class="refs-item-label">STJ</span><span class="refs-item-link">stj.jus.br</span></div>
+        <div class="refs-item"><span class="refs-item-label">STF</span><span class="refs-item-link">stf.jus.br</span></div>
+        <div class="refs-item"><span class="refs-item-label">Jusbrasil</span><span class="refs-item-link">jusbrasil.com.br</span></div>
+        <div class="refs-item"><span class="refs-item-label">TJRN</span><span class="refs-item-link">tjrn.jus.br</span></div>
+      </div>
+      <div class="refs-card">
+        <div class="refs-card-title">Ética e Regulação</div>
+        <div class="refs-item"><span class="refs-item-label">Código de Ética OAB</span><span class="refs-item-link">oab.org.br</span></div>
+        <div class="refs-item"><span class="refs-item-label">Prov. OAB 205/2021 (publicidade)</span><span class="refs-item-link">Portal do Conselho Federal</span></div>
+        <div class="refs-item"><span class="refs-item-label">LGPD</span><span class="refs-item-link">gov.br/anpd</span></div>
+      </div>
+      <div class="refs-card">
+        <div class="refs-card-title">Criação de conteúdo</div>
+        <div class="refs-item"><span class="refs-item-label">Canva (design de carrosséis)</span><span class="refs-item-link">canva.com</span></div>
+        <div class="refs-item"><span class="refs-item-label">Lovable (apps jurídicos)</span><span class="refs-item-link">lovable.dev</span></div>
+        <div class="refs-item"><span class="refs-item-label">Vercel (hospedagem)</span><span class="refs-item-link">vercel.com</span></div>
+      </div>
+      <div class="refs-card">
+        <div class="refs-card-title">Sobre este material</div>
+        <div class="refs-item"><span class="refs-item-label">Título</span><span class="refs-item-link">Advogando com o Claude</span></div>
+        <div class="refs-item"><span class="refs-item-label">Edição</span><span class="refs-item-link">2026</span></div>
+        <div class="refs-item"><span class="refs-item-label">Uso autorizado</span><span class="refs-item-link">Pessoal e profissional</span></div>
+        <div class="refs-item"><span class="refs-item-label">Autor</span><span class="refs-item-link">Renan Meneses da Silva</span></div>
+        <div class="refs-item"><span class="refs-item-label">OAB</span><span class="refs-item-link">RN 13.754</span></div>
+        <div class="refs-item"><span class="refs-item-label">Redistribuição</span><span class="refs-item-link">Não autorizada</span></div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(0,0,0,0.07);display:flex;gap:1rem;flex-wrap:wrap;">
+      <button class="ch-nav-btn" onclick="goTo('conclusao')">← Conclusão</button>
+      <button class="ch-nav-btn primary" onclick="goTo('cover')">↑ Voltar ao início</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// NAVEGAÇÃO
+// ═══════════════════════════════════════════════════════
+const ORDER = ['cover','toc','cap1','cap2','cap3','cap4','cap5','cap6','cap7','cap8','cap9','cap10','conclusao','refs'];
+let current = 'cover';
+let visited = new Set(['cover']);
+
+function goTo(id) {
+  // hide current
+  const prev = document.getElementById(current);
+  if (prev) prev.classList.add('hidden');
+
+  // show new
+  const next = document.getElementById(id);
+  if (!next) return;
+  next.classList.remove('hidden');
+  current = id;
+  visited.add(id);
+
+  // scroll to top
+  window.scrollTo(0, 0);
+  document.getElementById('main').scrollTop = 0;
+
+  // update sidebar active
+  document.querySelectorAll('.sb-link').forEach(a => {
+    a.classList.toggle('active', a.dataset.target === id);
+  });
+
+  // close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+
+  // update progress
+  updateProgress();
+
+  // save state
+  try { localStorage.setItem('acc_current', id); localStorage.setItem('acc_visited', JSON.stringify([...visited])); } catch(e){}
+}
+
+function updateProgress() {
+  const idx = ORDER.indexOf(current);
+  const pct = Math.round(((idx + 1) / ORDER.length) * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Restore state
+try {
+  const saved = localStorage.getItem('acc_current');
+  const savedVisited = localStorage.getItem('acc_visited');
+  if (savedVisited) visited = new Set(JSON.parse(savedVisited));
+  if (saved && ORDER.includes(saved)) {
+    goTo(saved);
+  } else {
+    updateProgress();
+  }
+} catch(e) { updateProgress(); }
+
+// Close sidebar on outside click (mobile)
+document.getElementById('main').addEventListener('click', () => {
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  const idx = ORDER.indexOf(current);
+  if (e.key === 'ArrowRight' && idx < ORDER.length - 1) goTo(ORDER[idx + 1]);
+  if (e.key === 'ArrowLeft' && idx > 0) goTo(ORDER[idx - 1]);
+});
+</script>
 </body>
 </html>
