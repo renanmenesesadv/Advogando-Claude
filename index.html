@@ -2,7 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0F0E0C">
+<meta name="format-detection" content="telephone=no">
 <title>Advogando com o Claude — Edição 2026</title>
 <style>
 /* ═══════════════════════════════════════════════════════
@@ -388,16 +392,93 @@ body {
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════════ */
+/* Tablet landscape */
+@media(max-width: 1024px) {
+  .ch-hero { padding: 56px 40px 44px; }
+  .ch-body { padding: 40px 40px 56px; }
+  .ch-nav { padding: 20px 40px; }
+  #toc-page { padding: 56px 40px; }
+  .concl-hero { padding: 60px 40px 48px; }
+  .concl-body { padding: 0 40px 60px; }
+  #refs-page { padding: 48px 40px; }
+}
+
+/* Tablet portrait & mobile */
 @media(max-width: 768px) {
   :root { --sidebar-w: 0px; }
   #sidebar { transform: translateX(-280px); width: 280px; }
   #sidebar.open { transform: translateX(0); }
   #main { margin-left: 0; padding-top: 52px; }
   #topbar { display: flex; }
-  .ch-hero, .ch-body, .ch-nav, #toc-page, .concl-hero, .concl-body, #refs-page { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .ch-hero, .ch-body, .ch-nav, #toc-page, .concl-hero, .concl-body, #refs-page { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .ch-hero { padding-top: 48px; padding-bottom: 36px; }
+  .ch-body { padding-top: 32px; padding-bottom: 48px; }
+  .ch-body h3 { font-size: 19px; margin-top: 2rem; }
+  .ch-body h4 { font-size: 16px; }
+  .ch-body p { font-size: 14.5px; text-align: left; }
+  .ch-num-bg { font-size: 80px; }
+  .ch-title { font-size: clamp(22px, 6vw, 36px); }
+  .ch-lead { font-size: 14px; }
+  .cover-content { padding: 2rem 1.25rem; }
+  .cover-title { font-size: clamp(36px, 10vw, 56px); }
+  .cover-desc { font-size: 14px; }
+  .cover-badge { font-size: 9px; padding: 4px 12px; }
   .cover-stats { gap: 1.5rem; flex-wrap: wrap; }
+  .cstat-num { font-size: 26px; }
   .toc-grid { grid-template-columns: 1fr; }
+  .toc-title { font-size: clamp(24px, 6vw, 36px); }
+  .toc-card { padding: 1rem 1.25rem; }
   .refs-grid { grid-template-columns: 1fr; }
+  .example-code { font-size: 12px; padding: 0.75rem 1rem; }
+  .callout { padding: 1rem 1.25rem; }
+  .gain-box { padding: 1.25rem 1.5rem; }
+  .gain-title { font-size: 17px; }
+  .steps li { gap: 0.75rem; }
+  .concl-title { font-size: clamp(28px, 7vw, 48px); }
+  .ch-nav { flex-wrap: wrap; justify-content: center; padding: 16px 1.25rem; gap: 0.5rem; }
+  .ch-nav-btn { font-size: 12px; padding: 8px 14px; }
+  .ch-nav-info { width: 100%; order: -1; }
+}
+
+/* Small phones */
+@media(max-width: 400px) {
+  .cover-title { font-size: clamp(30px, 9vw, 44px); }
+  .cover-stats { gap: 1rem; }
+  .cstat-num { font-size: 22px; }
+  .cstat-label { font-size: 9px; }
+  .ch-num-bg { font-size: 60px; }
+  .ch-body p { font-size: 14px; line-height: 1.8; }
+  .example-code { font-size: 11px; }
+  .toc-card-name { font-size: 15px; }
+}
+
+/* Touch device improvements */
+@media(hover: none) and (pointer: coarse) {
+  .sb-link { padding: 12px 24px; min-height: 44px; }
+  .ch-nav-btn { min-height: 44px; min-width: 44px; }
+  .cover-start-btn { min-height: 48px; padding: 14px 28px; }
+  .toc-card { padding: 1.25rem 1.5rem; }
+}
+
+/* Sidebar overlay on mobile */
+@media(max-width: 768px) {
+  #sidebar.open ~ #main::before,
+  .sb-overlay.active {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+  }
+}
+
+/* Safe area for notched phones */
+@supports(padding: max(0px)) {
+  #topbar { padding-left: max(1.25rem, env(safe-area-inset-left)); padding-right: max(1.25rem, env(safe-area-inset-right)); }
+  .ch-body, .ch-hero, #toc-page, .concl-hero, .concl-body, #refs-page {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -454,6 +535,9 @@ body {
     Uso pessoal e profissional autorizado.
   </div>
 </nav>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div id="sb-overlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;"></div>
 
 <!-- TOP BAR MOBILE -->
 <div id="topbar">
@@ -1266,7 +1350,7 @@ function goTo(id) {
   });
 
   // close sidebar on mobile
-  document.getElementById('sidebar').classList.remove('open');
+  closeSidebar();
 
   // update progress
   updateProgress();
@@ -1283,7 +1367,16 @@ function updateProgress() {
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sb-overlay');
+  const isOpen = sb.classList.toggle('open');
+  ov.style.display = isOpen ? 'block' : 'none';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').style.display = 'none';
+  document.body.style.overflow = '';
 }
 
 // Restore state
@@ -1301,7 +1394,7 @@ try {
 // Close sidebar on outside click (mobile)
 document.getElementById('main').addEventListener('click', () => {
   if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('open');
+    closeSidebar();
   }
 });
 
